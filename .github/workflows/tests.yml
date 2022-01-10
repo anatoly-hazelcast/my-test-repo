@@ -34,6 +34,8 @@ jobs:
           GITHUB_ENV: secrets
         run: | 
           curl http://cli.testquality.com/testquality-linux -o public
+          pwd
+          ls
           cd public
           pwd
           ls
