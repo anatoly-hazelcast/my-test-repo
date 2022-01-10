@@ -39,6 +39,12 @@ jobs:
       - name: Test
         run: mvn -B -U test
 
+      - name: download testquality CLI
+        run: | 
+          curl http://cli.testquality.com/testquality-linux -o public
+          pwd
+          ls
+
       - name: Publish E2E Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: ${{ !cancelled() }}
@@ -46,3 +52,6 @@ jobs:
           check_name: e2e test results
           files: ui-tests/target/*-reports/TEST-*.xml
           report_individual_runs: "true"
+
+      - name: Send to testquality
+        run:
