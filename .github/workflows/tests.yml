@@ -40,7 +40,7 @@ jobs:
           echo ${{ secrets.TESTQUALITYPASS }}
           chmod +x ${{ github.workspace }}/testquality-linux
           echo boom
-          .${{ github.workspace }}/testquality-linux login tolyaniy@gmail.com ${{ secrets.TESTQUALITYPASS }} --save
+          ${{ github.workspace }}/testquality-linux login tolyaniy@gmail.com ${{ secrets.TESTQUALITYPASS }} --save
 
       - name: Publish E2E Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
