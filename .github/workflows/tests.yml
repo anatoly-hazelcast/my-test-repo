@@ -38,8 +38,8 @@ jobs:
           pwd
           ls
           echo ${{ secrets.TESTQUALITYPASS }}
-          chmod +x public/testqulity-linux
-          public/testqulity-linux login tolyaniy@gmail.com ${{ secrets.TESTQUALITYPASS }} --save
+          chmod +x ${{ github.workspace }}/public/testqulity-linux
+          ${{ github.workspace }}/public/testqulity-linux login tolyaniy@gmail.com ${{ secrets.TESTQUALITYPASS }} --save
 
       - name: Publish E2E Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
