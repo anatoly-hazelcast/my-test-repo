@@ -39,19 +39,6 @@ jobs:
       - name: Test
         run: mvn -B -U test
 
-      - name: Generate Allure report
-        if: ${{ !cancelled() }}
-        run: mvn -B allure:report
-
-      - name: Upload Allure reports
-        uses: actions/upload-artifact@v2
-        if: ${{ !cancelled() }}
-        with:
-          name: Allure report
-          path: |
-            ${{ github.workspace }}/ui-tests/target/site/allure-maven-plugin
-            ${{ github.workspace }}/ui-tests/target/allure-results
-
       - name: Publish E2E Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: ${{ !cancelled() }}
