@@ -30,17 +30,16 @@ jobs:
         run: mvn -B -U test
 
       - name: download testquality CLI
+        if: ${{ !cancelled() }}
         env:
           GITHUB_ENV: secrets
         run: | 
           curl http://cli.testquality.com/testquality-linux -o public
           pwd
           ls
-          cd public
-          pwd
-          ls
           echo ${{ secrets.TESTQUALITYPASS }}
-          testqulity-linux login tolyaniy@gmail.com ${{ secrets.TESTQUALITYPASS }} --save
+          chmod +x public/testqulity-linux
+          public/testqulity-linux login tolyaniy@gmail.com ${{ secrets.TESTQUALITYPASS }} --save
 
       - name: Publish E2E Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
