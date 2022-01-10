@@ -34,12 +34,12 @@ jobs:
         env:
           GITHUB_ENV: secrets
         run: | 
-          curl http://cli.testquality.com/testquality-linux -o public
+          curl http://cli.testquality.com/testquality-linux -o testquality-linux
           pwd
           ls
           echo ${{ secrets.TESTQUALITYPASS }}
-          chmod +x ${{ github.workspace }}/public/testqulity-linux
-          ${{ github.workspace }}/public/testqulity-linux login tolyaniy@gmail.com ${{ secrets.TESTQUALITYPASS }} --save
+          chmod +x ${{ github.workspace }}/testqulity-linux
+          ${{ github.workspace }}/testqulity-linux login tolyaniy@gmail.com ${{ secrets.TESTQUALITYPASS }} --save
 
       - name: Publish E2E Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
