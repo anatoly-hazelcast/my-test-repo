@@ -22,4 +22,5 @@ public class AppTest {
             fail("Not this time, my friend");
         }
     }
+
 }

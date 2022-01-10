@@ -40,9 +40,6 @@ jobs:
     runs-on: ubuntu-20.04
     needs: changes
     if: ${{ needs.changes.outputs.e2e == 'true' }}
-    defaults:
-      run:
-        working-directory: ui-tests
     steps:
       - uses: actions/checkout@v2
 
