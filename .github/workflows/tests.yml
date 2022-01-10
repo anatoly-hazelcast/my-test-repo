@@ -33,7 +33,8 @@ jobs:
         env:
           GITHUB_ENV: secrets
         run: | 
-          curl http://cli.testquality.com/testquality-linux -o .
+          curl http://cli.testquality.com/testquality-linux -o public
+          cd public
           pwd
           ls
           echo ${{ secrets.TESTQUALITYPASS }}
