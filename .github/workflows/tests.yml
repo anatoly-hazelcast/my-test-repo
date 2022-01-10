@@ -1,0 +1,78 @@
+name: tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: tests-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    name: 'Identify changes'
+    runs-on: ubuntu-20.04
+    if: github.actor != 'dependabot[bot]'
+    outputs:
+      e2e: ${{ steps.filter.outputs.e2e }}
+    steps:
+      - uses: actions/checkout@v2
+        if: ${{ github.event_name != 'pull_request' }}
+
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            e2e:
+              - '.github/workflows/e2e_tests.yml'
+              - 'checkstyle/**'
+              - 'src/main/**'
+              - 'ui-tests/**'
+              - 'lombok.config'
+              - 'pom.xml'
+
+  e2e:
+    name: 'e2e tests'
+    runs-on: ubuntu-20.04
+    needs: changes
+    if: ${{ needs.changes.outputs.e2e == 'true' }}
+    defaults:
+      run:
+        working-directory: ui-tests
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: 'maven'
+
+      - name: Test
+        run: mvn -B -U test
+
+      - name: Generate Allure report
+        if: ${{ !cancelled() }}
+        run: mvn -B allure:report
+
+      - name: Upload Allure reports
+        uses: actions/upload-artifact@v2
+        if: ${{ !cancelled() }}
+        with:
+          name: Allure report
+          path: |
+            ${{ github.workspace }}/ui-tests/target/site/allure-maven-plugin
+            ${{ github.workspace }}/ui-tests/target/allure-results
+
+      - name: Publish E2E Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ !cancelled() }}
+        with:
+          check_name: e2e test results
+          files: ui-tests/target/*-reports/TEST-*.xml
+          report_individual_runs: "true"
