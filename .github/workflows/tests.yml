@@ -38,7 +38,6 @@ jobs:
           pwd
           ls
           echo ${{ secrets.TESTQUALITYPASS }}
-#          chmod +x ${{ github.workspace }}/testqulity-linux
           ./${{ github.workspace }}/testqulity-linux login tolyaniy@gmail.com ${{ secrets.TESTQUALITYPASS }} --save
 
       - name: Publish E2E Test Results
