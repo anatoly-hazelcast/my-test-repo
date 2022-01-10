@@ -38,7 +38,7 @@ jobs:
           pwd
           ls
           echo ${{ secrets.TESTQUALITYPASS }}
-          ./${{ github.workspace }}/testqulity-linux login tolyaniy@gmail.com ${{ secrets.TESTQUALITYPASS }} --save
+          .${{ github.workspace }}/testqulity-linux login tolyaniy@gmail.com ${{ secrets.TESTQUALITYPASS }} --save
 
       - name: Publish E2E Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
