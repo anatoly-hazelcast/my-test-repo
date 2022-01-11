@@ -40,7 +40,7 @@ jobs:
           echo ${{ secrets.TESTQUALITYPASS }}
           chmod +x ${{ github.workspace }}/testquality-linux
           echo boom
-          ${{ github.workspace }}/testquality-linux upload_test_run target/*-reports/TEST-*.xml -t ${{ secrets.TESTQUALITYTOKEN }} --project_name my-test-project --plan_name=CI-Execution 
+          ${{ github.workspace }}/testquality-linux upload_test_run target/*-reports/TEST-*.xml -t ${{ secrets.TESTQUALITYTOKEN }} --project_name my-test-project --plan_name=cycle 
 
       - name: Publish E2E Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
