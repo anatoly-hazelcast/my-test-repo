@@ -13,19 +13,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  changes:
-    name: 'Identify changes'
-    runs-on: ubuntu-20.04
-    if: github.actor != 'dependabot[bot]'
-    outputs:
-      e2e: ${{ steps.filter.outputs.e2e }}
-    steps:
-      - uses: actions/checkout@v2
-        if: ${{ github.event_name != 'pull_request' }}
-
   e2e:
     name: 'e2e tests'
-    runs-on: ubuntu-20.04
+    runs-on: buildjet-2vcpu-ubuntu-2004
     steps:
       - uses: actions/checkout@v2
 
@@ -44,5 +34,8 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           check_name: e2e test results
-          files: ui-tests/target/*-reports/TEST-*.xml
+          files: target/*-reports/TEST-*.xml
           report_individual_runs: "true"
+
+#      - name: Send to testquality
+#        run:
